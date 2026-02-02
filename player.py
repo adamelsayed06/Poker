@@ -1,16 +1,19 @@
 from hand import Hand
 class Player:
-    def __init__(self, hand : Hand, chips : int):
+    def __init__(self, chips : int):
         if chips < 0:
             raise ValueError("Player cannot have negative money")
-        self.hand = hand
         self.chips = chips
 
     def make_bet(self, bet_size : int):
         chips -= bet_size
 
     def fold(self):
-        hand = None
+        self.hand = None
+
+    def deal_hand(self, hand : Hand):
+        self.hand = hand
+        
     
     # what are the responsibilities of this class?
     # i think it makes sense to have it
