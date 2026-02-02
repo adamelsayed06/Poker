@@ -15,4 +15,4 @@ class Deck:
         self.cards.pop(idx)
 
         return returned_card
-
+# we pick from the deck, return the card and remove it from the deck, we can use this for the turn cards and the player cards
