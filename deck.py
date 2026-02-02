@@ -9,9 +9,10 @@ class Deck:
             for j in range(4):
                 self.cards.append(Card(i,j))
 
-    def pick_card(self):
+    def pick_card(self) -> Card:
         idx = random.randint(0, len(self.cards))
         returned_card = self.cards[idx]
         self.cards.pop(idx)
+
         return returned_card
 
