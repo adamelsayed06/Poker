@@ -15,4 +15,4 @@ class Player:
     # what are the responsibilities of this class?
     # i think it makes sense to have it
     # we can have a game class, goes around checks is the player in the game? 
-    # 
+    # check -> call nothing, fold -> make hand null, raise -> take from players chips and add to a pot (TODO)
