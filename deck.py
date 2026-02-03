@@ -10,7 +10,7 @@ class Deck:
                 self.cards.append(Card(i,j))
 
     def pick_card(self) -> Card:
-        idx = random.randint(0, len(self.cards))
+        idx = random.randint(0, len(self.cards) - 1) # second is inclusive, so len(self.cards) can go OOB
         returned_card = self.cards[idx]
         self.cards.pop(idx)
 
