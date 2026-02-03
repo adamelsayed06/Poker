@@ -33,6 +33,13 @@ def card_to_readable_output(card : Card) -> str:
     return (f"{cleaned_rank}{cleaned_suit}")
 
 def handle_bet():
+    # read the input from the user.
+    # if -1, fold
+    # if they input some amount, let's check if its enough by comparing it to the min_bet.
+    # min_bet represents the TOTAL amount u need to put at stake, so add how much they have at stake with the number they input to min_bet
+    # if its < error, if its == round ends nothing happens it just moves on to either the end or next person depending on who goes
+    # if its > its a raise so min_bet changes and the other person gets the chance to reraise
+    
      '''
         if player_1_bet_size == -1:
             player1.fold()
