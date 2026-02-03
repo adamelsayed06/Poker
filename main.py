@@ -32,6 +32,9 @@ def card_to_readable_output(card : Card) -> str:
 
     return (f"{cleaned_rank}{cleaned_suit}")
 
+def make_betting_decision():
+    time.sleep(3)
+
 def main():
     # Poker will be heads-up (two players)
     player1 = Player(100)
@@ -42,6 +45,8 @@ def main():
 
         player1.deal_hand(Hand(deck.pick_card(), deck.pick_card()))
         player2.deal_hand(Hand(deck.pick_card(), deck.pick_card()))
+
+        make_betting_decision()
 
         river = []
         river.append(deck.pick_card())
@@ -57,12 +62,16 @@ def main():
         make_betting_decision()
 
         river.append(deck.pick_card())
+        print(f"River: {card_to_readable_output(river[0])} {card_to_readable_output(river[1])} {card_to_readable_output(river[2])} {card_to_readable_output(river[3])}")
 
         make_betting_decision()
 
         river.append(deck.pick_card())
+        print(f"River: {card_to_readable_output(river[0])} {card_to_readable_output(river[1])} {card_to_readable_output(river[2])} {card_to_readable_output(river[3])} {card_to_readable_output(river[4])}")
         
         make_betting_decision()
+
+        # note -> card_to_readable_output should've just been a list of cards, and iterate over them (refactor this later)
 
 
 if __name__ == "__main__":
