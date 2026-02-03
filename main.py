@@ -36,7 +36,7 @@ def cards_to_readable_output(cards : List[Card]) -> str:
 
     return output
 
-def handle_bet(player : Player, player_amount_at_stake : int, amount_needed_to_be_put_at_stake : int):
+def handle_bet(player : Player, player_amount_at_stake : int, amount_needed_to_be_put_at_stake : int) -> None:
     if player_amount_at_stake == -1:
         player.fold()
     else:
@@ -63,6 +63,18 @@ def make_betting_decision(player1 : Player, player2 : Player) -> int:
             break        
 
     return player_1_amount_at_stake + player_2_amount_at_stake
+
+def payout_winner(player1 : Player, player2 : Player, river : List[Card], pot: int) -> None:
+    winner = determine_winner(player1, player2, river)
+    winner.chips += pot
+
+def determine_winner(player1 : Player, player2 : Player, river : List[Card]) -> Player:
+    if player1.hand is None:
+        return player2
+    elif player2.hand is None:
+        return player1
+    else:
+        return None
 
 def main():
     # Poker will be heads-up (two players) -> later we can pass in a number of players and implement that
@@ -101,7 +113,7 @@ def main():
         
         pot += make_betting_decision(player1, player2)
 
-        determine_winner_and_payout_pot(player1, player2, pot)
+        payout_winner(player1, player2, river, pot)
 
 if __name__ == "__main__":
     main()
