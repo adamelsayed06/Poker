@@ -32,8 +32,9 @@ def card_to_readable_output(card : Card) -> str:
 
     return (f"{cleaned_rank}{cleaned_suit}")
 
-def handle_bet():
+def handle_bet(player : Player, player_amount_at_stake : int, amount_needed_to_be_put_at_stake : int):
     # read the input from the user.
+    # also make sure to remove chips from the player here since once its at stake u cant take ur bet back
     # if -1, fold
     # if they input some amount, let's check if its enough by comparing it to the min_bet.
     # min_bet represents the TOTAL amount u need to put at stake, so add how much they have at stake with the number they input to min_bet
@@ -43,24 +44,19 @@ def handle_bet():
 
 def make_betting_decision(player1 : Player, player2 : Player) -> int:
     potIncrement = 0
-    # returns pot increase on this round of betting
-    # TODO: refactor this and sketch out logic
-    #logic flow -> lets have amt at stake for p1 & p2
-
-    # if currPlayer amt at stake < max(p1 amt at stake, p2 amt at stake) -> they need to bet or fold, otherwise check or bet
-    # they each get 1 turn, but if a person raises it resets?
-    # when both turns are taken the function can end
 
     min_bet = 0
-    player_1_amount_at_stake = -1
-    player_2_amount_at_stake = -1
+    player_1_amount_at_stake = 0
+    player_2_amount_at_stake = 0
 
-    while player_1_amount_at_stake != min_bet and player_2_amount_at_stake != min_bet:
-        player_1_bet_size = int(input("Player 1, input your bet size: (0 to check, -1 to fold): "))
-        potIncrement += handle_bet(player1, player_1_bet_size, player_1_amount_at_stake, min_bet)
+    while True: # emulates a do-while loop
+        player_1_amount_at_stake = int(input("Player 1, input your TOTAL bet size: (0 to check, -1 to fold): "))
+        potIncrement += handle_bet(player1, player_1_amount_at_stake, min_bet)
 
-        player_2_bet_size = int(input("Player 2, input your bet size: (0 to check, -1 to fold)"))
-        potIncrement += handle_bet(player2, player_2_bet_size, player_2_amount_at_stake, min_bet)
+        player_2_amount_at_stake = int(input("Player 2, input your TOTAL bet size: (0 to check, -1 to fold)"))
+        potIncrement += handle_bet(player2, player_2_amount_at_stake, min_bet)
+        if player_1_amount_at_stake == player_2_amount_at_stake:
+            break        
 
     return potIncrement
 
@@ -70,6 +66,7 @@ def main():
     player2 = Player(100)
 
     while player1.chips > 0 and player2.chips > 0:
+
         deck = Deck() # initializes a new deck -> so we will never run out of cards
         pot = 0
 
