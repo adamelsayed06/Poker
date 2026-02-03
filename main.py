@@ -1,5 +1,17 @@
 from player import Player
 from deck import Deck
+from hand import Hand
+from card import Card
+
+def hand_to_readable_output(self, card : Card) -> str:
+    if card.suit == 0:
+        return (f"{card.rank}♣")
+    elif card.suit == 1:
+        return (f"{card.rank}♦")
+    elif card.suit == 2:
+        return (f"{card.rank}♥")
+    elif card.suit == 3:
+        return (f"{card.rank}♠")
 
 def main():
     # Poker will be heads-up (two players)
@@ -11,6 +23,9 @@ def main():
 
         player1.deal_hand(deck.pick_card, deck.pick_card)
         player2.deal_hand(deck.pick_card, deck.pick_card)
+
+        print("Player 1's Hand is: " + player1.hand)
+        print("Player 2's hand is: " + player2.hand)
 
 
 if __name__ == "__main__":
