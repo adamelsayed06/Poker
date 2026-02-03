@@ -2,6 +2,7 @@ from player import Player
 from deck import Deck
 from hand import Hand
 from card import Card
+import time
 
 def card_to_readable_output(card : Card) -> str:
     cleaned_suit = None
@@ -37,13 +38,21 @@ def main():
     player2 = Player(100)
 
     while player1.chips > 0 and player2.chips > 0:
-        deck = Deck()
+        deck = Deck() # initializes a new deck -> so we will never run out of cards
 
         player1.deal_hand(Hand(deck.pick_card(), deck.pick_card()))
         player2.deal_hand(Hand(deck.pick_card(), deck.pick_card()))
 
+        river = []
+        river.append(deck.pick_card())
+        river.append(deck.pick_card())
+        river.append(deck.pick_card())
+
         print("Player 1's Hand is: " + card_to_readable_output(player1.hand.first_card) + " " + card_to_readable_output(player1.hand.second_card))
         print("Player 2's hand is: " + card_to_readable_output(player2.hand.first_card) + " " + card_to_readable_output(player2.hand.second_card))
+
+        print(f"River: {card_to_readable_output(river[0])} {card_to_readable_output(river[1])} {card_to_readable_output(river[2])}")
+        time.sleep(10)
 
 
 if __name__ == "__main__":
