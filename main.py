@@ -39,30 +39,7 @@ def handle_bet():
     # min_bet represents the TOTAL amount u need to put at stake, so add how much they have at stake with the number they input to min_bet
     # if its < error, if its == round ends nothing happens it just moves on to either the end or next person depending on who goes
     # if its > its a raise so min_bet changes and the other person gets the chance to reraise
-    
-     '''
-        if player_1_bet_size == -1:
-            player1.fold()
-        elif player_1_bet_size > player1.chips:
-            print("You don't have enough money")
-        else:
-            potIncrement += player_1_bet_size
-        
-
-        min_bet = max(min_bet, player_1_bet_size)
-
-        player_2_bet_size = int(input("Player 2, input your bet size: (0 to check, -1 to fold)"))
-        if player_2_bet_size == -1:
-            player2.fold()
-        elif player_2_bet_size < min_bet:
-            print(f"Bet size too low, must input at least {min_bet} to bet")
-        elif player_2_bet_size > player2.chips:
-            print("You don't have enough money")
-        else:
-            potIncrement += player_2_bet_size
-        
-        min_bet = max(min_bet, player_2_bet_size)
-        '''
+    pass
 
 def make_betting_decision(player1 : Player, player2 : Player) -> int:
     potIncrement = 0
