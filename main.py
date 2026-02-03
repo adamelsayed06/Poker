@@ -32,29 +32,15 @@ def card_to_readable_output(card : Card) -> str:
 
     return (f"{cleaned_rank}{cleaned_suit}")
 
-def make_betting_decision(player1 : Player, player2 : Player) -> int:
-    potIncrement = 0
-    # returns pot increase on this round of betting
-    # TODO: refactor this and sketch out logic
-    #logic flow -> lets have amt at stake for p1 & p2
-
-    # if currPlayer amt at stake < max(p1 amt at stake, p2 amt at stake) -> they need to bet or fold, otherwise check or bet
-    # they each get 1 turn, but if a person raises it resets?
-    # when both turns are taken the function can end
-
-    min_bet = 0
-    player_1_bet_size = -1
-    player_2_bet_size = -1
-
-    while player_1_bet_size != min_bet and player_2_bet_size != min_bet:
-        player_1_bet_size = int(input("Player 1, input your bet size: (0 to check, -1 to fold): "))
-        
+def handle_bet():
+     '''
         if player_1_bet_size == -1:
             player1.fold()
         elif player_1_bet_size > player1.chips:
             print("You don't have enough money")
         else:
             potIncrement += player_1_bet_size
+        
 
         min_bet = max(min_bet, player_1_bet_size)
 
@@ -69,6 +55,28 @@ def make_betting_decision(player1 : Player, player2 : Player) -> int:
             potIncrement += player_2_bet_size
         
         min_bet = max(min_bet, player_2_bet_size)
+        '''
+
+def make_betting_decision(player1 : Player, player2 : Player) -> int:
+    potIncrement = 0
+    # returns pot increase on this round of betting
+    # TODO: refactor this and sketch out logic
+    #logic flow -> lets have amt at stake for p1 & p2
+
+    # if currPlayer amt at stake < max(p1 amt at stake, p2 amt at stake) -> they need to bet or fold, otherwise check or bet
+    # they each get 1 turn, but if a person raises it resets?
+    # when both turns are taken the function can end
+
+    min_bet = 0
+    player_1_amount_at_stake = -1
+    player_2_amount_at_stake = -1
+
+    while player_1_amount_at_stake != min_bet and player_2_amount_at_stake != min_bet:
+        player_1_bet_size = int(input("Player 1, input your bet size: (0 to check, -1 to fold): "))
+        potIncrement += handle_bet(player1, player_1_bet_size, player_1_amount_at_stake, min_bet)
+
+        player_2_bet_size = int(input("Player 2, input your bet size: (0 to check, -1 to fold)"))
+        potIncrement += handle_bet(player2, player_2_bet_size, player_2_amount_at_stake, min_bet)
 
     return potIncrement
 
