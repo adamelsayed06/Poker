@@ -54,6 +54,16 @@ def main():
         print(f"River: {card_to_readable_output(river[0])} {card_to_readable_output(river[1])} {card_to_readable_output(river[2])}")
         time.sleep(10)
 
+        make_betting_decision()
+
+        river.append(deck.pick_card())
+
+        make_betting_decision()
+
+        river.append(deck.pick_card())
+        
+        make_betting_decision()
+
 
 if __name__ == "__main__":
     main()
