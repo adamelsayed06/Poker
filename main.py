@@ -32,7 +32,9 @@ def card_to_readable_output(card : Card) -> str:
 
     return (f"{cleaned_rank}{cleaned_suit}")
 
-def make_betting_decision(player1 : Player, player2 : Player):
+def make_betting_decision(player1 : Player, player2 : Player) -> int:
+    potIncrement = 0
+    # returns pot increase on this round of betting
     # TODO: refactor this and sketch out logic
     #logic flow -> lets have amt at stake for p1 & p2
 
@@ -41,22 +43,34 @@ def make_betting_decision(player1 : Player, player2 : Player):
     # when both turns are taken the function can end
 
     min_bet = 0
+    player_1_bet_size = -1
+    player_2_bet_size = -1
 
-    player_1_amount_at_stake = 0
-    player_2_amount_at_stake = 0
+    while player_1_bet_size != min_bet and player_2_bet_size != min_bet:
+        player_1_bet_size = int(input("Player 1, input your bet size: (0 to check, -1 to fold): "))
+        
+        if player_1_bet_size == -1:
+            player1.fold()
+        elif player_1_bet_size > player1.chips:
+            print("You don't have enough money")
+        else:
+            potIncrement += player_1_bet_size
 
-    player_1_bet_size = int(input("Player 1, input your bet size: (0 to check): "))
-    min_bet = max(min_bet, player_1_bet_size)
+        min_bet = max(min_bet, player_1_bet_size)
 
-    player_2_bet_size = int(input("Player 2, input your bet size: (-1 to fold)"))
-    if player_2_bet_size == -1:
-        player2.fold()
-    if player_2_bet_size < min_bet:
-        print(f"Bet size too low, must input at least {min_bet} to bet")
-    
+        player_2_bet_size = int(input("Player 2, input your bet size: (0 to check, -1 to fold)"))
+        if player_2_bet_size == -1:
+            player2.fold()
+        elif player_2_bet_size < min_bet:
+            print(f"Bet size too low, must input at least {min_bet} to bet")
+        elif player_2_bet_size > player2.chips:
+            print("You don't have enough money")
+        else:
+            potIncrement += player_2_bet_size
+        
+        min_bet = max(min_bet, player_2_bet_size)
 
-
-    time.sleep(3)
+    return potIncrement
 
 def main():
     # Poker will be heads-up (two players) -> later we can pass in a number of players and implement that
@@ -65,11 +79,12 @@ def main():
 
     while player1.chips > 0 and player2.chips > 0:
         deck = Deck() # initializes a new deck -> so we will never run out of cards
+        pot = 0
 
         player1.deal_hand(Hand(deck.pick_card(), deck.pick_card()))
         player2.deal_hand(Hand(deck.pick_card(), deck.pick_card()))
 
-        make_betting_decision()
+        pot += make_betting_decision()
 
         river = []
         river.append(deck.pick_card())
@@ -82,17 +97,17 @@ def main():
         print(f"River: {card_to_readable_output(river[0])} {card_to_readable_output(river[1])} {card_to_readable_output(river[2])}")
         time.sleep(10)
 
-        make_betting_decision()
+        pot += make_betting_decision()
 
         river.append(deck.pick_card())
         print(f"River: {card_to_readable_output(river[0])} {card_to_readable_output(river[1])} {card_to_readable_output(river[2])} {card_to_readable_output(river[3])}")
 
-        make_betting_decision()
+        pot += make_betting_decision()
 
         river.append(deck.pick_card())
         print(f"River: {card_to_readable_output(river[0])} {card_to_readable_output(river[1])} {card_to_readable_output(river[2])} {card_to_readable_output(river[3])} {card_to_readable_output(river[4])}")
         
-        make_betting_decision()
+        pot += make_betting_decision()
 
         # note -> card_to_readable_output should've just been a list of cards, and iterate over them (refactor this later)
 
