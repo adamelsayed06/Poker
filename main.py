@@ -3,7 +3,6 @@ from deck import Deck
 from hand import Hand
 from card import Card
 from typing import List
-import time
 
 def cards_to_readable_output(cards : List[Card]) -> str:
     cleaned_suit = None
@@ -101,9 +100,6 @@ def main():
         print(f"River: {cards_to_readable_output(river)}")
         
         pot += make_betting_decision(player1, player2)
-
-        # note -> card_to_readable_output should've just been a list of cards, and iterate over them (refactor this later)
-
 
 if __name__ == "__main__":
     main()
