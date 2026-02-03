@@ -37,6 +37,11 @@ def cards_to_readable_output(cards : List[Card]) -> str:
     return output
 
 def handle_bet(player : Player, player_amount_at_stake : int, amount_needed_to_be_put_at_stake : int):
+    if player_amount_at_stake == -1:
+        player.fold()
+        return 0
+    else:
+
     # read the input from the user.
     # also make sure to remove chips from the player here since once its at stake u cant take ur bet back
     # if -1, fold
@@ -44,7 +49,6 @@ def handle_bet(player : Player, player_amount_at_stake : int, amount_needed_to_b
     # min_bet represents the TOTAL amount u need to put at stake, so add how much they have at stake with the number they input to min_bet
     # if its < error, if its == round ends nothing happens it just moves on to either the end or next person depending on who goes
     # if its > its a raise so min_bet changes and the other person gets the chance to reraise
-    return 0
 
 def make_betting_decision(player1 : Player, player2 : Player) -> int:
     potIncrement = 0
