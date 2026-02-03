@@ -2,35 +2,40 @@ from player import Player
 from deck import Deck
 from hand import Hand
 from card import Card
+from typing import List
 import time
 
-def card_to_readable_output(card : Card) -> str:
+def cards_to_readable_output(cards : List[Card]) -> str:
     cleaned_suit = None
     cleaned_rank = None
+    output = ""
 
-    if card.rank == 11:
-        cleaned_rank = "J"
-    elif card.rank == 12:
-        cleaned_rank = "Q"
-    elif card.rank == 13:
-        cleaned_rank = "K"
-    elif card.rank == 14:
-        cleaned_rank = "A"
-    else:
-        cleaned_rank = card.rank
+    for card in cards:
+        if card.rank == 11:
+            cleaned_rank = "J"
+        elif card.rank == 12:
+            cleaned_rank = "Q"
+        elif card.rank == 13:
+            cleaned_rank = "K"
+        elif card.rank == 14:
+            cleaned_rank = "A"
+        else:
+            cleaned_rank = card.rank
 
-    if card.suit == 0:
-        cleaned_suit = "♣"
-    elif card.suit == 1:
-        cleaned_suit = "♦"
-    elif card.suit == 2:
-        cleaned_suit = "♥"
-    elif card.suit == 3:
-        cleaned_suit = "♠"
-    else:
-        cleaned_suit = card.suit # should never reach this case, only 4 suits
+        if card.suit == 0:
+            cleaned_suit = "♣"
+        elif card.suit == 1:
+            cleaned_suit = "♦"
+        elif card.suit == 2:
+            cleaned_suit = "♥"
+        elif card.suit == 3:
+            cleaned_suit = "♠"
+        else:
+            cleaned_suit = card.suit # should never reach this case, only 4 suits
 
-    return (f"{cleaned_rank}{cleaned_suit}")
+        output += (f"{cleaned_rank}{cleaned_suit}")
+
+    return output
 
 def handle_bet(player : Player, player_amount_at_stake : int, amount_needed_to_be_put_at_stake : int):
     # read the input from the user.
@@ -40,7 +45,7 @@ def handle_bet(player : Player, player_amount_at_stake : int, amount_needed_to_b
     # min_bet represents the TOTAL amount u need to put at stake, so add how much they have at stake with the number they input to min_bet
     # if its < error, if its == round ends nothing happens it just moves on to either the end or next person depending on who goes
     # if its > its a raise so min_bet changes and the other person gets the chance to reraise
-    pass
+    return 0
 
 def make_betting_decision(player1 : Player, player2 : Player) -> int:
     potIncrement = 0
@@ -73,30 +78,29 @@ def main():
         player1.deal_hand(Hand(deck.pick_card(), deck.pick_card()))
         player2.deal_hand(Hand(deck.pick_card(), deck.pick_card()))
 
-        pot += make_betting_decision()
+        pot += make_betting_decision(player1, player2)
 
         river = []
         river.append(deck.pick_card())
         river.append(deck.pick_card())
         river.append(deck.pick_card())
 
-        print("Player 1's Hand is: " + card_to_readable_output(player1.hand.first_card) + " " + card_to_readable_output(player1.hand.second_card))
-        print("Player 2's hand is: " + card_to_readable_output(player2.hand.first_card) + " " + card_to_readable_output(player2.hand.second_card))
+        print("Player 1's Hand is: " + cards_to_readable_output([player1.hand.first_card, player1.hand.second_card]))
+        print("Player 2's hand is: " + cards_to_readable_output([player2.hand.first_card, player2.hand.second_card]))
 
-        print(f"River: {card_to_readable_output(river[0])} {card_to_readable_output(river[1])} {card_to_readable_output(river[2])}")
-        time.sleep(10)
+        print(f"Flop: {cards_to_readable_output(river)}")
 
-        pot += make_betting_decision()
-
-        river.append(deck.pick_card())
-        print(f"River: {card_to_readable_output(river[0])} {card_to_readable_output(river[1])} {card_to_readable_output(river[2])} {card_to_readable_output(river[3])}")
-
-        pot += make_betting_decision()
+        pot += make_betting_decision(player1, player2)
 
         river.append(deck.pick_card())
-        print(f"River: {card_to_readable_output(river[0])} {card_to_readable_output(river[1])} {card_to_readable_output(river[2])} {card_to_readable_output(river[3])} {card_to_readable_output(river[4])}")
+        print(f"Turn: {cards_to_readable_output(river)}")
+
+        pot += make_betting_decision(player1, player2)
+
+        river.append(deck.pick_card())
+        print(f"River: {cards_to_readable_output(river)}")
         
-        pot += make_betting_decision()
+        pot += make_betting_decision(player1, player2)
 
         # note -> card_to_readable_output should've just been a list of cards, and iterate over them (refactor this later)
 
