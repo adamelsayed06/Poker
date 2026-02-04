@@ -117,8 +117,26 @@ def make_best_hand(all_cards : List[Card]) -> Tuple[int, ...]:
     if value := make_one_pair(all_cards):
         return value
 
-    if value := make_high_card(all_cards):
-        return value          
+    return make_high_card(all_cards)
+
+def make_straight_flush(all_cards : List[Card]) -> Tuple[int, ...]:
+    pass
+def make_quads(all_cards : List[Card]) -> Tuple[int, ...]:
+    pass   
+def make_full_house(all_cards : List[Card]) -> Tuple[int, ...]:
+    pass    
+def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
+    pass   
+def make_straight(all_cards : List[Card]) -> Tuple[int, ...]:
+    pass   
+def make_trips(all_cards : List[Card]) -> Tuple[int, ...]:
+    pass   
+def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...]:
+    pass   
+def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...]:
+    pass
+def make_high_card(all_cards : List[Card]) -> Tuple[int, ...]:
+    pass     
 
 def main():
     # Poker will be heads-up (two players) -> later we can pass in a number of players and implement that
