@@ -78,8 +78,8 @@ def determine_winner(player1 : Player, player2 : Player, river : List[Card]) -> 
     elif player2.hand is None:
         return player1
     else:
-        player1_best_five_cards = make_best_hand(player1)
-        player2_best_five_cards = make_best_hand(player2)
+        player1_best_five_cards = make_best_hand(player1.cards + river)
+        player2_best_five_cards = make_best_hand(player2.cards + river)
 
         if player1_best_five_cards > player2_best_five_cards:
             return player1
@@ -88,12 +88,37 @@ def determine_winner(player1 : Player, player2 : Player, river : List[Card]) -> 
         else:
             return None # split pot
 
-def make_best_hand(player : Player) -> Tuple[int, ...]:
+def make_best_hand(all_cards : List[Card]) -> Tuple[int, ...]:
     # return type -> rank of hand and then some consistent formatting for each of those hands
     # e.g. pair is second worst hadn so it will be (2, 4, 8, 5, 3) order matters since when python comapres typles it'll go in order
-    pass
+    
+    # same thing as saying value = make_sf(all_cards), if value return value
+    if value := make_straight_flush(all_cards):
+        return value
+    
+    if value := make_quads(all_cards):
+        return value
 
-                
+    if value := make_full_house(all_cards):
+        return value
+
+    if value := make_flush(all_cards):
+        return value
+
+    if value := make_straight(all_cards):
+        return value
+
+    if value := make_trips(all_cards):
+        return value
+
+    if value := make_two_pair(all_cards):
+        return value
+
+    if value := make_one_pair(all_cards):
+        return value
+
+    if value := make_high_card(all_cards):
+        return value          
 
 def main():
     # Poker will be heads-up (two players) -> later we can pass in a number of players and implement that
