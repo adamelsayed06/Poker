@@ -2,7 +2,7 @@ from player import Player
 from deck import Deck
 from hand import Hand
 from card import Card
-from typing import List
+from typing import List, Tuple
 
 def cards_to_readable_output(cards : List[Card]) -> str:
     cleaned_suit = None
@@ -66,7 +66,11 @@ def make_betting_decision(player1 : Player, player2 : Player) -> int:
 
 def payout_winner(player1 : Player, player2 : Player, river : List[Card], pot: int) -> None:
     winner = determine_winner(player1, player2, river)
-    winner.chips += pot
+    if winner is None:
+        player1.chips += pot / 2
+        player2.chips += pot / 2
+    else:
+        winner.chips += pot
 
 def determine_winner(player1 : Player, player2 : Player, river : List[Card]) -> Player:
     if player1.hand is None:
@@ -74,7 +78,22 @@ def determine_winner(player1 : Player, player2 : Player, river : List[Card]) -> 
     elif player2.hand is None:
         return player1
     else:
-        return None
+        player1_best_five_cards = make_best_hand(player1)
+        player2_best_five_cards = make_best_hand(player2)
+
+        if player1_best_five_cards > player2_best_five_cards:
+            return player1
+        elif player2_best_five_cards > player1_best_five_cards:
+            return player2
+        else:
+            return None # split pot
+
+def make_best_hand(player : Player) -> Tuple[int, ...]:
+    # return type -> rank of hand and then some consistent formatting for each of those hands
+    # e.g. pair is second worst hadn so it will be (2, 4, 8, 5, 3) order matters since when python comapres typles it'll go in order
+    pass
+
+                
 
 def main():
     # Poker will be heads-up (two players) -> later we can pass in a number of players and implement that
