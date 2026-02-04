@@ -3,6 +3,7 @@ from deck import Deck
 from hand import Hand
 from card import Card
 from typing import List, Tuple
+from collections import defaultdict
 
 def cards_to_readable_output(cards : List[Card]) -> str:
     cleaned_suit = None
@@ -122,7 +123,22 @@ def make_best_hand(all_cards : List[Card]) -> Tuple[int, ...]:
 def make_straight_flush(all_cards : List[Card]) -> Tuple[int, ...]:
     pass
 def make_quads(all_cards : List[Card]) -> Tuple[int, ...]:
-    pass   
+    freq = defaultdict(int)
+    for card in all_cards:
+        freq[card] += 1
+    
+    highest_freq_tuple = max(freq.items(), key = lambda item : item[1])
+    # card, freq
+
+    highest_freq_card, highest_freq = highest_freq_tuple
+    kicker = get_kicker(all_cards, highest_freq_tuple)
+    
+    if highest_freq < 4:
+        return None
+    
+    return (8, highest_freq_card.rank, kicker)
+
+    
 def make_full_house(all_cards : List[Card]) -> Tuple[int, ...]:
     pass    
 def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
@@ -137,6 +153,9 @@ def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...]:
     pass
 def make_high_card(all_cards : List[Card]) -> Tuple[int, ...]:
     pass     
+
+def get_kicker(all_cards : List[Card]):
+    pass
 
 def main():
     # Poker will be heads-up (two players) -> later we can pass in a number of players and implement that
