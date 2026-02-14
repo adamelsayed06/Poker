@@ -139,7 +139,21 @@ def make_quads(all_cards : List[Card]) -> Tuple[int, ...]:
     return (8, highest_freq_card.rank, kicker)
 
 def make_full_house(all_cards : List[Card]) -> Tuple[int, ...]:
-    pass    
+    freq = defaultdict(int)
+    for card in all_cards:
+        freq[card] += 1
+    
+    top_two_freq_tuple = sorted(freq.items(), key = lambda item : item[1], reverse=True)[:2]
+    # tuple of card, freq
+
+    if top_two_freq_tuple[0][1] != 3 or top_two_freq_tuple[1][1] != 2:
+        return None
+    
+    return(7, top_two_freq_tuple[0][0].rank, top_two_freq_tuple[1][0].rank)
+    # 7 (rank of full house in relation to other hands), rank of 3 of a kind, rank of 2 of a kind
+
+
+
 def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
     pass   
 def make_straight(all_cards : List[Card]) -> Tuple[int, ...]:
