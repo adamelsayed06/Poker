@@ -176,6 +176,7 @@ def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
 
 def make_straight(all_cards : List[Card]) -> Tuple[int, ...]:
     # to make the highest straight sort by highest rank
+    all_cards.sort(key = lambda card : card.rank, reverse=True)
     potential_straight = []
     for i in range(3):
         for j in range(i, i + 5):
@@ -195,9 +196,6 @@ def make_straight(all_cards : List[Card]) -> Tuple[int, ...]:
             return (5, *(potential_straight))
     
     return None
-        
-
-    sorted(all_cards, key = lambda card : card.rank, reverse=True)
 def make_trips(all_cards : List[Card]) -> Tuple[int, ...]:
     freq = defaultdict(int)
     for card in all_cards:
