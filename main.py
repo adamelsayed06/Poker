@@ -141,7 +141,7 @@ def make_quads(all_cards : List[Card]) -> Tuple[int, ...]:
 def make_full_house(all_cards : List[Card]) -> Tuple[int, ...]:
     freq = defaultdict(int)
     for card in all_cards:
-        freq[card] += 1
+        freq[card.rank] += 1
     
     top_two_freq_tuple = sorted(freq.items(), key = lambda item : (item[1], item[0]), reverse=True)[:2]
     # tuple of card, freq
@@ -177,7 +177,28 @@ def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
 def make_straight(all_cards : List[Card]) -> Tuple[int, ...]:
     pass   
 def make_trips(all_cards : List[Card]) -> Tuple[int, ...]:
-    pass   
+    freq = defaultdict(int)
+    for card in all_cards:
+        freq[card.rank] += 1
+    
+    top_freq_tuple = sorted(freq.items(), key = lambda item : (item[1], item[0].rank), reverse=True)[0]
+    # item[1] = frequency, item[0] = rank
+    top_freq_card, freq = top_freq_tuple
+
+    kickers = []
+
+    for c in sorted(all_cards, key=lambda item:(item.rank), reverse=True):
+        if len(kickers) == 2:
+            break
+        if c.rank == top_freq_card.rank:
+            continue
+        kickers.append(c)
+
+    if freq < 3:
+        return None
+    else:
+        return (5, top_freq_card.rank, kickers[0].rank, kickers[1].rank)
+    # card : freq
 def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...]:
     pass   
 def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...]:
