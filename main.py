@@ -130,13 +130,17 @@ def make_quads(all_cards : List[Card]) -> Tuple[int, ...] | None:
     highest_freq_tuple = max(freq.items(), key = lambda item : item[1])
     # card, freq
 
-    highest_freq_card, highest_freq = highest_freq_tuple
-    kicker = get_kicker(all_cards, highest_freq_tuple)
+    highest_freq_card_rank, highest_freq = highest_freq_tuple
+    for c in sorted(all_cards, lambda item : item.rank, reverse=True):
+        if c.rank == highest_freq_card_rank:
+            continue
+        kicker = c.rank
+        break
     
     if highest_freq < 4:
         return None
     
-    return (8, highest_freq_card.rank, kicker)
+    return (8, highest_freq_card_rank, kicker)
 
 def make_full_house(all_cards : List[Card]) -> Tuple[int, ...] | None:
     freq = defaultdict(int)
