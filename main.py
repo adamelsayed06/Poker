@@ -210,7 +210,7 @@ def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...]:
         return None
     
     kicker = None
-    for c in all_cards.sort(key = lambda item : item.rank, reverse=True):
+    for c in sorted(all_cards, key = lambda item : item.rank, reverse=True):
         if c.rank != top_two_freq_cards[0][0] or c.rank != top_two_freq_cards[1][0]:
             kicker = c
             break
