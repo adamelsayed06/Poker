@@ -247,16 +247,33 @@ def test_make_best_hand():
         all_cards.append(deck.pick_card())
 
     print("All cards to make a hand with: " + cards_to_readable_output(all_cards))
-    return
-    '''
-    tuple_generated = make_one_pair(all_cards)
-    if tuple_generated:
-        print("Tuple generated" + str(make_one_pair(all_cards)))
-    else:
-        print("No one pair :broken_heart:")
-    '''
+    print("Tuple generated" + str(make_best_hand(all_cards)))
     
+def test_comparing_best_hands():
+    deck = Deck()
+    river = []
+    for _ in range(5):
+        river.append(deck.pick_card())
+    
+    player_1_hole_cards = [deck.pick_card() for _ in range(2)]
+    player_2_hole_cards = [deck.pick_card() for _ in range(2)]
 
+    print("River: " + cards_to_readable_output(river))
+    print("Player 1 Hole Cards: " + cards_to_readable_output(player_1_hole_cards))
+    print("Player 2 Hole Cards: " + cards_to_readable_output(player_2_hole_cards))
+
+    player_1_tuple = make_best_hand(river + player_1_hole_cards)
+    player_2_tuple = make_best_hand(river + player_2_hole_cards)
+
+    print("Player 1 Tuple: " + str(player_1_tuple))
+    print("Player 2 Tuple: " + str(player_2_tuple))
+
+    if player_1_tuple > player_2_tuple:
+        print("Player 1 wins")
+    elif player_2_tuple > player_1_tuple:
+        print("Player 2 wins")
+    else:
+        print("split pot")
 def main():
     # Poker will be heads-up (two players) -> later we can pass in a number of players and implement that
     player1 = Player(100)
