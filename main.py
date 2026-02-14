@@ -238,7 +238,7 @@ def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...]:
     return (3, top_freq_tuple[0], *(k.rank for k in kickers)) # *kickers expands list into individual elements
     
 def make_high_card(all_cards : List[Card]) -> Tuple[int, ...]:
-    pass     
+    return (1, *(sorted(all_cards, key = lambda card : (card.rank), reverse=True)[:5]))
 
 def test_make_best_hand():
     deck = Deck()
