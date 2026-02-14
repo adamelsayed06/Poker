@@ -218,7 +218,25 @@ def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...]:
     return (4, top_two_freq_cards[0][0], top_two_freq_cards[1][0], kicker.rank)
     
 def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...]:
-    pass
+    freq = defaultdict(int)
+    for card in all_cards:
+        freq[card.rank] += 1
+
+    top_freq_tuple = sorted(freq.items(), key = lambda item : (item[1], item[0].rank), reverse=True)[0]
+    # items are in form card.rank : freq
+    if top_freq_tuple[1] < 2:
+        return None
+    
+    kickers = []
+    for c in all_cards.sort(key = lambda item : item.rank, reverse=True):
+        if len(kickers) == 4:
+            break
+        if c.rank == top_freq_tuple[0]:
+            continue
+        kickers.append(c)
+    
+    return (3, top_freq_tuple[0], *kickers) # *kickers expands list into individual elements
+    
 def make_high_card(all_cards : List[Card]) -> Tuple[int, ...]:
     pass     
 
