@@ -125,7 +125,7 @@ def make_straight_flush(all_cards : List[Card]) -> Tuple[int, ...]:
 def make_quads(all_cards : List[Card]) -> Tuple[int, ...]:
     freq = defaultdict(int)
     for card in all_cards:
-        freq[card] += 1
+        freq[card.rank] += 1
     
     highest_freq_tuple = max(freq.items(), key = lambda item : item[1])
     # card, freq
