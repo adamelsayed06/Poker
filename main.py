@@ -175,7 +175,29 @@ def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
 
 
 def make_straight(all_cards : List[Card]) -> Tuple[int, ...]:
-    pass   
+    # to make the highest straight sort by highest rank
+    potential_straight = []
+    for i in range(3):
+        for j in range(i, i + 5):
+            if j == i:
+                potential_straight.append(all_cards[j].rank)
+            else:
+                prev_card_rank = all_cards[j - 1].rank
+                curr_card_rank = all_cards[j].rank
+            if prev_card_rank == curr_card_rank + 1:
+                # valid for straights, previous num i.e. 9 = 8 + 1 
+                potential_straight.append(curr_card_rank)
+            else:
+                potential_straight = []
+                break
+        
+        if len(potential_straight) == 5:
+            return (5, *(potential_straight))
+    
+    return None
+        
+
+    sorted(all_cards, key = lambda card : card.rank, reverse=True)
 def make_trips(all_cards : List[Card]) -> Tuple[int, ...]:
     freq = defaultdict(int)
     for card in all_cards:
@@ -197,7 +219,7 @@ def make_trips(all_cards : List[Card]) -> Tuple[int, ...]:
     if freq < 3:
         return None
     else:
-        return (5, top_freq_card.rank, kickers[0].rank, kickers[1].rank)
+        return (4, top_freq_card.rank, kickers[0].rank, kickers[1].rank)
     # card : freq
 def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...]:
     freq = defaultdict(int)
@@ -215,7 +237,7 @@ def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...]:
             kicker = c
             break
     
-    return (4, top_two_freq_cards[0][0], top_two_freq_cards[1][0], kicker.rank)
+    return (3, top_two_freq_cards[0][0], top_two_freq_cards[1][0], kicker.rank)
     
 def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...]:
     freq = defaultdict(int)
@@ -235,7 +257,7 @@ def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...]:
             continue
         kickers.append(c)
     
-    return (3, top_freq_tuple[0], *(k.rank for k in kickers)) # *kickers expands list into individual elements
+    return (2, top_freq_tuple[0], *(k.rank for k in kickers)) # *kickers expands list into individual elements
     
 def make_high_card(all_cards : List[Card]) -> Tuple[int, ...]:
     return (1, *(sorted(all_cards, key = lambda card : (card.rank), reverse=True)[:5]))
