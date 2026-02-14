@@ -138,7 +138,6 @@ def make_quads(all_cards : List[Card]) -> Tuple[int, ...]:
     
     return (8, highest_freq_card.rank, kicker)
 
-    
 def make_full_house(all_cards : List[Card]) -> Tuple[int, ...]:
     pass    
 def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
