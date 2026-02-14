@@ -200,7 +200,23 @@ def make_trips(all_cards : List[Card]) -> Tuple[int, ...]:
         return (5, top_freq_card.rank, kickers[0].rank, kickers[1].rank)
     # card : freq
 def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...]:
-    pass   
+    freq = defaultdict(int)
+    for card in all_cards:
+        freq[card.rank] += 1
+
+    top_two_freq_cards = sorted(freq.items(), key = lambda item : (item[1], item[0].rank), reverse=True)[:2]
+    # items are in form card.rank : freq
+    if top_two_freq_cards[0][1] < 2 or top_two_freq_cards[1][1] < 2:
+        return None
+    
+    kicker = None
+    for c in all_cards.sort(key = lambda item : item.rank, reverse=True):
+        if c.rank != top_two_freq_cards[0][0] or c.rank != top_two_freq_cards[1][0]:
+            kicker = c
+            break
+    
+    return (4, top_two_freq_cards[0][0], top_two_freq_cards[1][0], kicker.rank)
+    
 def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...]:
     pass
 def make_high_card(all_cards : List[Card]) -> Tuple[int, ...]:
