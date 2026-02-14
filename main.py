@@ -120,9 +120,9 @@ def make_best_hand(all_cards : List[Card]) -> Tuple[int, ...]:
 
     return make_high_card(all_cards)
 
-def make_straight_flush(all_cards : List[Card]) -> Tuple[int, ...]:
+def make_straight_flush(all_cards : List[Card]) -> Tuple[int, ...] | None:
     pass
-def make_quads(all_cards : List[Card]) -> Tuple[int, ...]:
+def make_quads(all_cards : List[Card]) -> Tuple[int, ...] | None:
     freq = defaultdict(int)
     for card in all_cards:
         freq[card.rank] += 1
@@ -138,7 +138,7 @@ def make_quads(all_cards : List[Card]) -> Tuple[int, ...]:
     
     return (8, highest_freq_card.rank, kicker)
 
-def make_full_house(all_cards : List[Card]) -> Tuple[int, ...]:
+def make_full_house(all_cards : List[Card]) -> Tuple[int, ...] | None:
     freq = defaultdict(int)
     for card in all_cards:
         freq[card.rank] += 1
@@ -153,7 +153,7 @@ def make_full_house(all_cards : List[Card]) -> Tuple[int, ...]:
     # 7 (rank of full house in relation to other hands), rank of 3 of a kind, rank of 2 of a kind
 
 
-def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
+def make_flush(all_cards : List[Card]) -> Tuple[int, ...] | None:
     freq = defaultdict(int)
     for card in all_cards:
         freq[card.suit] += 1
@@ -174,7 +174,7 @@ def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
     # c.rank because we want to compare based off of rank and not Card objects
 
 
-def make_straight(all_cards : List[Card]) -> Tuple[int, ...]:
+def make_straight(all_cards : List[Card]) -> Tuple[int, ...] | None:
     ranks = {card.rank for card in all_cards}
     if len(ranks) < 5:
         return None
@@ -205,7 +205,7 @@ def make_straight(all_cards : List[Card]) -> Tuple[int, ...]:
         
     return None
 
-def make_trips(all_cards : List[Card]) -> Tuple[int, ...]:
+def make_trips(all_cards : List[Card]) -> Tuple[int, ...] | None:
     freq = defaultdict(int)
     for card in all_cards:
         freq[card.rank] += 1
@@ -228,7 +228,7 @@ def make_trips(all_cards : List[Card]) -> Tuple[int, ...]:
     else:
         return (4, top_freq_card.rank, kickers[0].rank, kickers[1].rank)
     # card : freq
-def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...]:
+def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...] | None:
     freq = defaultdict(int)
     for card in all_cards:
         freq[card.rank] += 1
@@ -246,7 +246,7 @@ def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...]:
     
     return (3, top_two_freq_cards[0][0], top_two_freq_cards[1][0], kicker.rank)
     
-def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...]:
+def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...] | None:
     freq = defaultdict(int)
     for card in all_cards:
         freq[card.rank] += 1
