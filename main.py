@@ -175,30 +175,36 @@ def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
 
 
 def make_straight(all_cards : List[Card]) -> Tuple[int, ...]:
-    # to make the highest straight sort by highest rank
-    #TODO: implement logic where Ace is low card
-    sorted_all_cards = sorted(all_cards, key = lambda card : card.rank, reverse=True)
-    potential_straight = []
-    for i in range(3):
+    ranks = {card.rank for card in all_cards}
+    if len(ranks) < 5:
+        return None
+    # get rid of duplicates by using a set
+    if 14 in ranks:
+        ranks.add(1) # adds ace low as a possibility
+
+    sorted_ranks = sorted(ranks, reverse = True)
+    
+    for i in range(len(sorted_ranks) - 4): 
+        # how many windows do we check for a straight in, its the length of the cards we check - length of a straight (-4 cause its exlcusive)
+        straight = []
         for j in range(i, i + 5):
             if j == i:
-                potential_straight.append(sorted_all_cards[j].rank)
+                straight.append(sorted_ranks[j])
             else:
-                prev_card_rank = sorted_all_cards[j - 1].rank
-                curr_card_rank = sorted_all_cards[j].rank
-                if prev_card_rank == curr_card_rank:
-                    continue # for cards of the same rank, not necessarily broken, just skip it
+                prev_card_rank = sorted_ranks[j - 1]
+                curr_card_rank = sorted_ranks[j]
                 if prev_card_rank == curr_card_rank + 1:
-                # valid for straights, previous num i.e. 9 = 8 + 1 
-                    potential_straight.append(curr_card_rank)
-                else:    
-                    potential_straight = []
+                    # valid!
+                    straight.append(curr_card_rank)
+                else:
+                    straight = []
                     break
+
+        if len(straight) == 5:
+            return (5, *(straight))
         
-        if len(potential_straight) == 5:
-            return (5, *(potential_straight))
-    
     return None
+
 def make_trips(all_cards : List[Card]) -> Tuple[int, ...]:
     freq = defaultdict(int)
     for card in all_cards:
