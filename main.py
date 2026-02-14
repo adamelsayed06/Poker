@@ -240,21 +240,21 @@ def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...]:
 def make_high_card(all_cards : List[Card]) -> Tuple[int, ...]:
     pass     
 
-def get_kicker(all_cards : List[Card]):
-    pass
-
-def test_pair():
+def test_make_best_hand():
     deck = Deck()
     all_cards = []
     for i in range(7):
         all_cards.append(deck.pick_card())
 
     print("All cards to make a hand with: " + cards_to_readable_output(all_cards))
+    return
+    '''
     tuple_generated = make_one_pair(all_cards)
     if tuple_generated:
         print("Tuple generated" + str(make_one_pair(all_cards)))
     else:
         print("No one pair :broken_heart:")
+    '''
     
 
 def main():
@@ -297,4 +297,4 @@ def main():
         payout_winner(player1, player2, river, pot)
 
 if __name__ == "__main__":
-    test_pair()
+    test_make_best_hand()
