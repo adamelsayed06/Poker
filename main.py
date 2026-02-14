@@ -170,7 +170,7 @@ def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
             cards_of_most_common_suit.append(card)
     
     cards_of_most_common_suit.sort(key=lambda card : card.rank, reverse=True)
-    return (6, c.rank for c in cards_of_most_common_suit)
+    return (6, *(c.rank for c in cards_of_most_common_suit)[:5]) # only 5 highest
     # c.rank because we want to compare based off of rank and not Card objects
 
 
@@ -181,7 +181,7 @@ def make_trips(all_cards : List[Card]) -> Tuple[int, ...]:
     for card in all_cards:
         freq[card.rank] += 1
     
-    top_freq_tuple = sorted(freq.items(), key = lambda item : (item[1], item[0].rank), reverse=True)[0]
+    top_freq_tuple = sorted(freq.items(), key = lambda item : (item[1], item[0]), reverse=True)[0]
     # item[1] = frequency, item[0] = rank
     top_freq_card, freq = top_freq_tuple
 
@@ -222,26 +222,40 @@ def make_one_pair(all_cards : List[Card]) -> Tuple[int, ...]:
     for card in all_cards:
         freq[card.rank] += 1
 
-    top_freq_tuple = sorted(freq.items(), key = lambda item : (item[1], item[0].rank), reverse=True)[0]
+    top_freq_tuple = sorted(freq.items(), key = lambda item : (item[1], item[0]), reverse=True)[0]
     # items are in form card.rank : freq
     if top_freq_tuple[1] < 2:
         return None
     
     kickers = []
-    for c in all_cards.sort(key = lambda item : item.rank, reverse=True):
+    for c in sorted(all_cards, key=lambda item: item.rank, reverse=True):
         if len(kickers) == 4:
             break
         if c.rank == top_freq_tuple[0]:
             continue
         kickers.append(c)
     
-    return (3, top_freq_tuple[0], *kickers) # *kickers expands list into individual elements
+    return (3, top_freq_tuple[0], *(k.rank for k in kickers)) # *kickers expands list into individual elements
     
 def make_high_card(all_cards : List[Card]) -> Tuple[int, ...]:
     pass     
 
 def get_kicker(all_cards : List[Card]):
     pass
+
+def test_pair():
+    deck = Deck()
+    all_cards = []
+    for i in range(7):
+        all_cards.append(deck.pick_card())
+
+    print("All cards to make a hand with: " + cards_to_readable_output(all_cards))
+    tuple_generated = make_one_pair(all_cards)
+    if tuple_generated:
+        print("Tuple generated" + str(make_one_pair(all_cards)))
+    else:
+        print("No one pair :broken_heart:")
+    
 
 def main():
     # Poker will be heads-up (two players) -> later we can pass in a number of players and implement that
@@ -283,4 +297,4 @@ def main():
         payout_winner(player1, player2, river, pot)
 
 if __name__ == "__main__":
-    main()
+    test_pair()
