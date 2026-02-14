@@ -176,21 +176,24 @@ def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
 
 def make_straight(all_cards : List[Card]) -> Tuple[int, ...]:
     # to make the highest straight sort by highest rank
-    all_cards.sort(key = lambda card : card.rank, reverse=True)
+    #TODO: implement logic where Ace is low card
+    sorted_all_cards = sorted(all_cards, key = lambda card : card.rank, reverse=True)
     potential_straight = []
     for i in range(3):
         for j in range(i, i + 5):
             if j == i:
-                potential_straight.append(all_cards[j].rank)
+                potential_straight.append(sorted_all_cards[j].rank)
             else:
-                prev_card_rank = all_cards[j - 1].rank
-                curr_card_rank = all_cards[j].rank
-            if prev_card_rank == curr_card_rank + 1:
+                prev_card_rank = sorted_all_cards[j - 1].rank
+                curr_card_rank = sorted_all_cards[j].rank
+                if prev_card_rank == curr_card_rank:
+                    continue # for cards of the same rank, not necessarily broken, just skip it
+                if prev_card_rank == curr_card_rank + 1:
                 # valid for straights, previous num i.e. 9 = 8 + 1 
-                potential_straight.append(curr_card_rank)
-            else:
-                potential_straight = []
-                break
+                    potential_straight.append(curr_card_rank)
+                else:    
+                    potential_straight = []
+                    break
         
         if len(potential_straight) == 5:
             return (5, *(potential_straight))
