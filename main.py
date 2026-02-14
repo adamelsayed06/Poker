@@ -143,7 +143,7 @@ def make_full_house(all_cards : List[Card]) -> Tuple[int, ...]:
     for card in all_cards:
         freq[card] += 1
     
-    top_two_freq_tuple = sorted(freq.items(), key = lambda item : item[1], reverse=True)[:2]
+    top_two_freq_tuple = sorted(freq.items(), key = lambda item : (item[1], item[0]), reverse=True)[:2]
     # tuple of card, freq
 
     if top_two_freq_tuple[0][1] != 3 or top_two_freq_tuple[1][1] != 2:
@@ -153,9 +153,12 @@ def make_full_house(all_cards : List[Card]) -> Tuple[int, ...]:
     # 7 (rank of full house in relation to other hands), rank of 3 of a kind, rank of 2 of a kind
 
 
-
 def make_flush(all_cards : List[Card]) -> Tuple[int, ...]:
-    pass   
+    freq = defaultdict(int)
+    for card in all_cards:
+        freq[card.suit] += 1
+    
+
 def make_straight(all_cards : List[Card]) -> Tuple[int, ...]:
     pass   
 def make_trips(all_cards : List[Card]) -> Tuple[int, ...]:
