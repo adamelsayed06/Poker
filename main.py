@@ -91,7 +91,26 @@ def make_best_hand(all_cards : List[Card]) -> Tuple[int, ...]:
             return value
 
 def make_straight_flush(all_cards : List[Card]) -> Tuple[int, ...] | None:
-    pass
+    deduplicated_cards = {all_cards}
+    # check all possible straights, and if any of them are flushes return it, go from highest to lowest for straights
+    cards_sorted_high_rank_to_low = sorted(deduplicated_cards, key = lambda card : card.rank, reverse=True)
+    straight_flush = []
+
+    for i in range(cards_sorted_high_rank_to_low - 4):
+        straight = []
+        # if there are 6 cards we only want to run 2 iterations, say there's 7 (i.e. no duplicates) we want to run 3 iterations
+        for j in range(i, i + 5):
+            if i == j:
+                straight.append(cards_sorted_high_rank_to_low[j])
+            elif cards_sorted_high_rank_to_low[j - 1].rank == cards_sorted_high_rank_to_low[j].rank + 1:
+                straight.append(cards_sorted_high_rank_to_low[j])
+
+        if len(straight) == 5:
+            if all(card.rank == straight[0].rank for card in straight):
+                return ()
+    
+    return None
+
 def make_quads(all_cards : List[Card]) -> Tuple[int, ...] | None:
     freq = defaultdict(int)
     for card in all_cards:
@@ -126,7 +145,6 @@ def make_full_house(all_cards : List[Card]) -> Tuple[int, ...] | None:
     return(7, top_two_freq_tuple[0][0].rank, top_two_freq_tuple[1][0].rank)
     # 7 (rank of full house in relation to other hands), rank of 3 of a kind, rank of 2 of a kind
 
-
 def make_flush(all_cards : List[Card]) -> Tuple[int, ...] | None:
     freq = defaultdict(int)
     for card in all_cards:
@@ -146,7 +164,6 @@ def make_flush(all_cards : List[Card]) -> Tuple[int, ...] | None:
     cards_of_most_common_suit.sort(key=lambda card : card.rank, reverse=True)
     return (6, *(c.rank for c in cards_of_most_common_suit)[:5]) # only 5 highest
     # c.rank because we want to compare based off of rank and not Card objects
-
 
 def make_straight(all_cards : List[Card]) -> Tuple[int, ...] | None:
     ranks = {card.rank for card in all_cards}
@@ -202,6 +219,7 @@ def make_trips(all_cards : List[Card]) -> Tuple[int, ...] | None:
     else:
         return (4, top_freq_card.rank, kickers[0].rank, kickers[1].rank)
     # card : freq
+
 def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...] | None:
     freq = defaultdict(int)
     for card in all_cards:
@@ -277,6 +295,7 @@ def test_comparing_best_hands():
         print("Player 2 wins")
     else:
         print("split pot")
+
 def main():
     # Poker will be heads-up (two players) -> later we can pass in a number of players and implement that
     player1 = Player(100)
