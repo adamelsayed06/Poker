@@ -94,7 +94,6 @@ def make_straight_flush(all_cards : List[Card]) -> Tuple[int, ...] | None:
     deduplicated_cards = {all_cards}
     # check all possible straights, and if any of them are flushes return it, go from highest to lowest for straights
     cards_sorted_high_rank_to_low = sorted(deduplicated_cards, key = lambda card : card.rank, reverse=True)
-    straight_flush = []
 
     for i in range(cards_sorted_high_rank_to_low - 4):
         straight = []
@@ -107,7 +106,7 @@ def make_straight_flush(all_cards : List[Card]) -> Tuple[int, ...] | None:
 
         if len(straight) == 5:
             if all(card.rank == straight[0].rank for card in straight):
-                return ()
+                return (9, *(c.rank for c in straight))
     
     return None
 
