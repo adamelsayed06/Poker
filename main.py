@@ -6,33 +6,13 @@ from typing import List, Tuple
 from collections import defaultdict
 
 def cards_to_readable_output(cards : List[Card]) -> str:
-    cleaned_suit = None
-    cleaned_rank = None
+    rank_map = {11:"J",12:"Q",13:"K",14:"A"}
+    suit_map = {0: "♣", 1: "♦", 2: "♥", 3: "♠"}
+    
     output = ""
-
     for card in cards:
-        if card.rank == 11:
-            cleaned_rank = "J"
-        elif card.rank == 12:
-            cleaned_rank = "Q"
-        elif card.rank == 13:
-            cleaned_rank = "K"
-        elif card.rank == 14:
-            cleaned_rank = "A"
-        else:
-            cleaned_rank = card.rank
-
-        if card.suit == 0:
-            cleaned_suit = "♣"
-        elif card.suit == 1:
-            cleaned_suit = "♦"
-        elif card.suit == 2:
-            cleaned_suit = "♥"
-        elif card.suit == 3:
-            cleaned_suit = "♠"
-        else:
-            cleaned_suit = card.suit # should never reach this case, only 4 suits
-
+        cleaned_rank = rank_map.get(card.rank, card.rank)
+        cleaned_suit = suit_map.get(card.suit, card.suit)
         output += (f"{cleaned_rank}{cleaned_suit}")
 
     return output
