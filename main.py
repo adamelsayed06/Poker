@@ -94,31 +94,21 @@ def make_best_hand(all_cards : List[Card]) -> Tuple[int, ...]:
     # e.g. pair is second worst hadn so it will be (2, 4, 8, 5, 3) order matters since when python comapres typles it'll go in order
     
     # same thing as saying value = make_sf(all_cards), if value return value
-    if value := make_straight_flush(all_cards):
-        return value
-    
-    if value := make_quads(all_cards):
-        return value
+    hand_evaluators = [
+    make_straight_flush,
+    make_quads,
+    make_full_house,
+    make_flush,
+    make_straight,
+    make_trips,
+    make_two_pair,
+    make_one_pair,
+    make_high_card,
+    ]
 
-    if value := make_full_house(all_cards):
-        return value
-
-    if value := make_flush(all_cards):
-        return value
-
-    if value := make_straight(all_cards):
-        return value
-
-    if value := make_trips(all_cards):
-        return value
-
-    if value := make_two_pair(all_cards):
-        return value
-
-    if value := make_one_pair(all_cards):
-        return value
-
-    return make_high_card(all_cards)
+    for evaluator in hand_evaluators:
+        if value := evaluator(all_cards):
+            return value
 
 def make_straight_flush(all_cards : List[Card]) -> Tuple[int, ...] | None:
     pass
