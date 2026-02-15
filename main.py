@@ -105,7 +105,7 @@ def make_straight_flush(all_cards : List[Card]) -> Tuple[int, ...] | None:
                 straight.append(cards_sorted_high_rank_to_low[j])
 
         if len(straight) == 5:
-            if all(card.rank == straight[0].rank for card in straight):
+            if all(card.suit == straight[0].suit for card in straight):
                 return (9, *(c.rank for c in straight))
     
     return None
