@@ -336,3 +336,5 @@ def main():
 
 if __name__ == "__main__":
     test_make_best_hand()
+
+    print("Testing git")
