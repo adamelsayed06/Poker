@@ -315,7 +315,7 @@ def main():
         river = []
 
         if not player1.hand or not player2.hand:
-            payout_winner(player1, player2, river)
+            payout_winner(player1, player2, river, pot)
         
         river.append(deck.pick_card())
         river.append(deck.pick_card())
@@ -326,7 +326,7 @@ def main():
         pot += make_betting_decision(player1, player2)
 
         if not player1.hand or not player2.hand:
-            payout_winner(player1, player2, river)
+            payout_winner(player1, player2, river, pot)
 
         river.append(deck.pick_card())
         print(f"Turn: {cards_to_readable_output(river)}")
@@ -334,7 +334,7 @@ def main():
         pot += make_betting_decision(player1, player2)
 
         if not player1.hand or not player2.hand:
-            payout_winner(player1, player2, river)
+            payout_winner(player1, player2, river, pot)
 
         river.append(deck.pick_card())
         print(f"River: {cards_to_readable_output(river)}")
