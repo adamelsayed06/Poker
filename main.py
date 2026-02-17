@@ -40,7 +40,7 @@ def make_betting_decision(player1 : Player, player2 : Player) -> int:
 
         player_2_amount_at_stake = int(input("Player 2, input your TOTAL bet size: (0 to check, -1 to fold)"))
         handle_bet(player2, player_2_amount_at_stake, min_bet)
-        if player_1_amount_at_stake == player_2_amount_at_stake:
+        if player_1_amount_at_stake == player_2_amount_at_stake or not player1.hand or not player2.hand:
             break        
 
     return player_1_amount_at_stake + player_2_amount_at_stake
@@ -312,8 +312,11 @@ def main():
         print("Player 2's hand is: " + cards_to_readable_output([player2.hand.first_card, player2.hand.second_card]))
 
         pot += make_betting_decision(player1, player2)
-
         river = []
+
+        if not player1.hand or not player2.hand:
+            payout_winner(player1, player2, river)
+        
         river.append(deck.pick_card())
         river.append(deck.pick_card())
         river.append(deck.pick_card())
@@ -322,10 +325,16 @@ def main():
 
         pot += make_betting_decision(player1, player2)
 
+        if not player1.hand or not player2.hand:
+            payout_winner(player1, player2, river)
+
         river.append(deck.pick_card())
         print(f"Turn: {cards_to_readable_output(river)}")
 
         pot += make_betting_decision(player1, player2)
+
+        if not player1.hand or not player2.hand:
+            payout_winner(player1, player2, river)
 
         river.append(deck.pick_card())
         print(f"River: {cards_to_readable_output(river)}")
