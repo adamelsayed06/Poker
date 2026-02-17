@@ -201,22 +201,22 @@ def make_trips(all_cards : List[Card]) -> Tuple[int, ...] | None:
         freq[card.rank] += 1
     
     top_freq_tuple = sorted(freq.items(), key = lambda item : (item[1], item[0]), reverse=True)[0]
-    # item[1] = frequency, item[0] = rank
-    top_freq_card, freq = top_freq_tuple
+    # item[1] = frequency, item[0] = rank {8 : 3}
+    top_freq_rank, freq = top_freq_tuple
 
     kickers = []
 
     for c in sorted(all_cards, key=lambda item:(item.rank), reverse=True):
         if len(kickers) == 2:
             break
-        if c.rank == top_freq_card.rank:
+        if c.rank == top_freq_rank:
             continue
         kickers.append(c)
 
     if freq < 3:
         return None
     else:
-        return (4, top_freq_card.rank, kickers[0].rank, kickers[1].rank)
+        return (4, top_freq_rank, kickers[0].rank, kickers[1].rank)
     # card : freq
 
 def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...] | None:
@@ -224,8 +224,8 @@ def make_two_pair(all_cards : List[Card]) -> Tuple[int, ...] | None:
     for card in all_cards:
         freq[card.rank] += 1
 
-    top_two_freq_cards = sorted(freq.items(), key = lambda item : (item[1], item[0].rank), reverse=True)[:2]
-    # items are in form card.rank : freq
+    top_two_freq_cards = sorted(freq.items(), key = lambda item : (item[1], item[0]), reverse=True)[:2]
+    # items are in form card.rank : freq {8 : 2}, {7 : 2}
     if top_two_freq_cards[0][1] < 2 or top_two_freq_cards[1][1] < 2:
         return None
     
@@ -335,6 +335,4 @@ def main():
         payout_winner(player1, player2, river, pot)
 
 if __name__ == "__main__":
-    test_make_best_hand()
-
-    print("Testing git")
+    main()
