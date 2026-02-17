@@ -91,11 +91,11 @@ def make_best_hand(all_cards : List[Card]) -> Tuple[int, ...]:
             return value
 
 def make_straight_flush(all_cards : List[Card]) -> Tuple[int, ...] | None:
-    deduplicated_cards = {all_cards}
+    deduplicated_cards = set(all_cards)
     # check all possible straights, and if any of them are flushes return it, go from highest to lowest for straights
     cards_sorted_high_rank_to_low = sorted(deduplicated_cards, key = lambda card : card.rank, reverse=True)
 
-    for i in range(cards_sorted_high_rank_to_low - 4):
+    for i in range(len(cards_sorted_high_rank_to_low) - 4):
         straight = []
         # if there are 6 cards we only want to run 2 iterations, say there's 7 (i.e. no duplicates) we want to run 3 iterations
         for j in range(i, i + 5):
@@ -119,7 +119,7 @@ def make_quads(all_cards : List[Card]) -> Tuple[int, ...] | None:
     # card, freq
 
     highest_freq_card_rank, highest_freq = highest_freq_tuple
-    for c in sorted(all_cards, lambda item : item.rank, reverse=True):
+    for c in sorted(all_cards, key = lambda item : item.rank, reverse = True):
         if c.rank == highest_freq_card_rank:
             continue
         kicker = c.rank
