@@ -161,7 +161,7 @@ def make_flush(all_cards : List[Card]) -> Tuple[int, ...] | None:
             cards_of_most_common_suit.append(card)
     
     cards_of_most_common_suit.sort(key=lambda card : card.rank, reverse=True)
-    return (6, *(c.rank for c in cards_of_most_common_suit)[:5]) # only 5 highest
+    return (6, *[c.rank for c in cards_of_most_common_suit][:5]) # only 5 highest
     # c.rank because we want to compare based off of rank and not Card objects
 
 def make_straight(all_cards : List[Card]) -> Tuple[int, ...] | None:
