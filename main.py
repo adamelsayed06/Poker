@@ -308,15 +308,15 @@ def main():
         player1.deal_hand(Hand(deck.pick_card(), deck.pick_card()))
         player2.deal_hand(Hand(deck.pick_card(), deck.pick_card()))
 
+        print("Player 1's Hand is: " + cards_to_readable_output([player1.hand.first_card, player1.hand.second_card]))
+        print("Player 2's hand is: " + cards_to_readable_output([player2.hand.first_card, player2.hand.second_card]))
+
         pot += make_betting_decision(player1, player2)
 
         river = []
         river.append(deck.pick_card())
         river.append(deck.pick_card())
         river.append(deck.pick_card())
-
-        print("Player 1's Hand is: " + cards_to_readable_output([player1.hand.first_card, player1.hand.second_card]))
-        print("Player 2's hand is: " + cards_to_readable_output([player2.hand.first_card, player2.hand.second_card]))
 
         print(f"Flop: {cards_to_readable_output(river)}")
 
